@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  
+  backend:
+    build: ./backend
+    container_name: login_backend
+    restart: always
+    environment:
+      DATABASE_URL: postgresql://admin:wKlZyuscyKKzjHCdVA6tiepKMSH2DOcg@dpg-d31pdmodl3ps73fgdp4g-a.oregon-postgres.render.com/login_system_5k97
+    ports:
+      - "3000:3000"
+  
+
+  frontend:
+    image: nginx:alpine
+    container_name: login_frontend
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html
+      - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - backend
+
+volumes:
+  db_data:

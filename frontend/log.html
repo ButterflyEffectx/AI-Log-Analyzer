@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Logs</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #fafafa; }
+    h2 { text-align: center; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 10px; border: 1px solid #ddd; text-align: center; }
+    th { background: #007BFF; color: white; }
+    tr:nth-child(even) { background: #f9f9f9; }
+  </style>
+</head>
+<body>
+  <h2>Login Logs</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>User</th>
+        <th>IP Address</th>
+        <th>Status</th>
+        <th>Timestamp</th>
+      </tr>
+    </thead>
+    <tbody id="logs"></tbody>
+  </table>
+
+  <script>
+  async function loadLogs() {
+      const res = await fetch("https://login-system-qlon.onrender.com/logs"); 
+      const logs = await res.json();
+  
+      logs.sort((a, b) => a.id - b.id);
+  
+      const tbody = document.getElementById("logs");
+      tbody.innerHTML = "";
+  
+      logs.forEach(log => {
+          const row = `<tr>
+              <td>${log.id}</td>
+              <td>${log.username}</td>
+              <td>${log.ip_address}</td>
+              <td>${log.status}</td>
+              <td>${log.timestamp}</td>
+          </tr>`;
+          tbody.innerHTML += row;
+      });
+  }
+
+loadLogs();
+</script>
+
+</body>
+</html>
